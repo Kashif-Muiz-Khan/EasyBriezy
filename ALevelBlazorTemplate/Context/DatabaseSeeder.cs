@@ -53,6 +53,18 @@ namespace MyCheeseShop.Context
             }
         }
 
+        public async Task<List<Cheese>> GetAllCheesesAsync()
+        {
+            return await _context.Cheeses.OrderBy(cheese => cheese.Name).ToListAsync();
+        }
+
+        public Cheese? GetCheese(int id)
+        {
+            return _context.Cheeses.Find(id);
+        }
+
+
+
         private List<Cheese> GetCheeses()
         {
             return

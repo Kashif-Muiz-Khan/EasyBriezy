@@ -1,0 +1,91 @@
+﻿@page "/QuickGrid"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using MyCheeseShop.Context
+@using MyCheeseShop.Model
+@inject CheeseProvider CheeseProvider
+@inject NavigationManager NavigationManager
+
+<h3>Cheese QuickGrid</h3>
+
+@if (Cheeses == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div>
+        <QuickGrid Theme="bootstrap" Class="table" Items="@FilteredCheeses" Pagination="@pagination">
+            <PropertyColumn Property="@(c => c.Id)" Sortable="true" />
+            <PropertyColumn Property="@(c => c.Name)" Sortable="true">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="nameSearch" @bind:event="oninput" placeholder="Cheese name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <PropertyColumn Property="@(c => c.Type)" Sortable="true" />
+            <PropertyColumn Property="@(c => c.Description)" Sortable="true" />
+            <PropertyColumn Property="@(c => c.Strength)" Sortable="true" />
+            <PropertyColumn Property="@(c => c.Price)" Sortable="true" />
+        </QuickGrid>
+        <Paginator State="@pagination" />
+    </div>
+}
+
+
+
+<div class="card h-100">
+    <img src="/img/cheeses/@model.ImageUrl" class="card-img-top p-1" alt="@model.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
+    <div class="card-body d-flex flex-column">
+        <h5>
+            <span class="badge bg-primary">@model.Type</span>
+            <span class="badge bg-success">@model.Strength</span>
+        </h5>
+        <div class="d-flex flex-column flex-sm-row justify-content-between">
+            <h5 class="card-title">@model.Name</h5>
+            <h5><span class="badge bg-danger">@model.Price.ToString("C")</span></h5>
+        </div>
+        <p class="card-text">@model.Description</p>
+        <div class="mt-auto">
+            </div>
+    </div>
+</div>
+
+
+
+
+@code {
+    private EditContext editContext;
+    private Cheese model;
+    private IQueryable<Cheese>? cheeses;
+    private PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    private string nameSearch;
+
+    public IQueryable<Cheese>? Cheeses { get; set; }
+
+    private IQueryable<Cheese>? FilteredCheeses
+    {
+        get
+        {
+            IQueryable<Cheese>? filtered = Cheeses;
+            if (!string.IsNullOrEmpty(nameSearch))
+            {
+                filtered = filtered?.Where(c => c.Name.Contains(nameSearch, StringComparison.CurrentCultureIgnoreCase));
+            }
+            return filtered;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCheeses();
+    }
+
+    private async Task GetCheeses()
+    {
+        Cheeses = (await CheeseProvider.GetAllCheesesAsync()).AsQueryable();
+        model = new Cheese();
+        editContext = new EditContext(model);
+    }
+
+}

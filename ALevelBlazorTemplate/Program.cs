@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ShoppingCart>();
 builder.Services.AddScoped<DatabaseSeeder>();
+builder.Services.AddScoped<CheeseProvider>();
 
 
 

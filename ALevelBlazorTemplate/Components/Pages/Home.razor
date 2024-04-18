@@ -1,6 +1,28 @@
 ﻿@page "/"
+@using MyCheeseShop.Context
+@using MyCheeseShop.Model
+@inject CheeseProvider CheeseProvider
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Welcome to Cheese World!</h1>
+
+
+
+
+<CheeseQuickGrid />
+
+
+
+@code {
+
+    private IEnumerable<Cheese> cheeses;
+
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        cheeses = await CheeseProvider.GetAllCheesesAsync();
+    }
+}
 
