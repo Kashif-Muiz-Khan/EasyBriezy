@@ -1,17 +1,31 @@
-﻿using ALevelBlazorTemplate.Model;
+﻿using MyCheeseShop.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ALevelBlazorTemplate.Context
+namespace MyCheeseShop.Context
 {
     public class DatabaseContext : IdentityDbContext<User>
     {
+        private IWebHostEnvironment _environment;
+
+        public DbSet<Cheese> Cheeses { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+
+        public DatabaseContext(DbContextOptions<DatabaseContext> options, IWebHostEnvironment environment) : base(options)
+        {
+            _environment = environment;
+        }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            var folder = Environment.SpecialFolder.MyDocuments;
-            var path = Environment.GetFolderPath(folder);
-            var dbPath = Path.Join(path, "database.db");
-            optionbuilder.UseSqlite($"Data Source={dbPath}");
+            var folder = Path.Combine(_environment.WebRootPath, "database");
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            optionbuilder.UseSqlite($"Data Source={folder}/cheese.db");
         }
     }
 }
