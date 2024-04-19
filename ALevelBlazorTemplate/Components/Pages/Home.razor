@@ -41,21 +41,6 @@ else if (!cheeses.Any())
 
 
 
-
-
-@foreach (var Cheese in cheeses)
-{
-    <div class="card" style="width: 18rem;">
-        <img src="/img/cheeses/@Cheese.ImageUrl" class="card-img-top p-1" alt="@Cheese.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
-        <div class="card-body">
-            <h5 class="card-title">@Cheese.Name</h5>
-            <span class="badge text-bg-info">@Cheese.Strength</span>
-            <span class="badge text-bg-dark">@Cheese.Price</span>
-            <p class="card-text">@Cheese.Description</p>
-        </div>
-    </div>
-}
-
 <CheeseQuickGrid />
 
 
