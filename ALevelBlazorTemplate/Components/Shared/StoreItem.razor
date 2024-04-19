@@ -1,13 +1,32 @@
-﻿@using MyCheeseShop.Context
-@using MyCheeseShop.Model
-@inject CheeseProvider CheeseProvider
+﻿@inject CheeseProvider CheeseProvider
+@inject ProtectedSessionStorage ProtectedSessionStore
+@inject ShoppingCart ShoppingCart
 
 <h3>StoreItem</h3>
 
 
 
 
+
+
+
+
+
+
+
+
 @code {
+    [Parameter]
+    public Cheese Cheese { get; set; }
+
+    private int quantity = 1;
+
+
+    public async Task AddToCart()
+    {
+        ShoppingCart.AddItem(Cheese, quantity);
+        await ProtectedSessionStore.SetAsync("cart", ShoppingCart.GetItems());
+    }
 
 
 }
