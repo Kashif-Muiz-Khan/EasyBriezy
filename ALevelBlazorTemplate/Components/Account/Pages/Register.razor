@@ -33,11 +33,34 @@
                     <InputText type="password" class="form-control" placeholder="Password" @bind-Value="Model.Password" />
                 </div>
                 <div class="col-md-6">
-                    <label for="name" class="form-label">Confirm Password</label>
+                    <label for="password" class="form-label">Confirm Password</label>
                     <InputText type="password" class="form-control" placeholder="Confirm Password" @bind-Value="Model.ConfirmPassword" />
+                </div>
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <InputText type="firstName" class="form-control" placeholder="First Name" @bind-Value="Model.FirstName" />
+                </div>
+                <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <InputText type="lastName" class="form-control" placeholder="Last Name" @bind-Value="Model.LastName" />
+                </div>
+                <div class="col-md-6">
+                    <label for="address" class="form-label">Address</label>
+                    <InputText type="address" class="form-control" placeholder="Address" @bind-Value="Model.Address" />
+                </div>
+                <div class="col-md-6">
+                    <label for="city" class="form-label">City</label>
+                    <InputText type="city" class="form-control" placeholder="City" @bind-Value="Model.City" />
+                </div>
+                <div class="col-md-6">
+                    <label for="postcode" class="form-label">PostCode</label>
+                    <InputText type="postcode" class="form-control" placeholder="PostCode" @bind-Value="Model.PostCode" />
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary w-100">Register</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-primary w-100">🔑Login</button>
                 </div>
             </div>
         </EditForm>

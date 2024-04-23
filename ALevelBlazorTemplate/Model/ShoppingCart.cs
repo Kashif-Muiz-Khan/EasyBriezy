@@ -57,6 +57,13 @@
             return _items.Sum(item => item.Cheese.Price * item.Quantity);
         }
 
+        public void Clear()
+        {
+            // remove all items from the cart
+            _items.Clear();
+            OnCartUpdated?.Invoke();
+        }
+
         public void SetItems(IEnumerable<CartItem> items)
         {
             _items = items.ToList();

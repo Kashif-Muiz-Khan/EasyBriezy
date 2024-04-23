@@ -13,168 +13,44 @@
 <PageTitle>Log in</PageTitle>
 <StatusMessage Message="@statusMessage" IsError="@isError" />
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Open Sans", sans-serif;
-    }
 
-    .glassmorphism-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        width: 100%;
-        padding: 0 10px;
-        position: relative;
-    }
 
-        .glassmorphism-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('/img/login.jpeg'), #000;
-            background-position: center;
-            background-size: cover; /* Adjusted to cover the entire container */
-            z-index: -1;
-        }
+<div class="card">
+    <div class="card-body bg-light">
+        <h4 class="card-title">Login</h4>
+        <EditForm OnValidSubmit="LoginUser" Model="Model" FormName="loginForm">
+            <DataAnnotationsValidator />
+            <div class="row g-3">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <InputText id="email" @bind-Value="Model.Email" class="form-control" placeholder="name@example.com" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => Model!.Email)" />
+                        @if (!string.IsNullOrEmpty(Model.Email) && !new EmailAddressAttribute().IsValid(Model.Email))
+                        {
+                            <div class="text-danger">Please enter a valid email address.</div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <InputText id="password" type="password" @bind-Value="Model.Password" class="form-control" placeholder="Password" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => Model!.Password)" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-primary w-100">🔑 Login</button>
 
-    .wrapper {
-        width: 400px; /* Adjust the width as needed */
-        height: 400px; /* Set the height to match the width */
-        border-radius: 8px;
-        padding: 30px;
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    h2 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: #fff;
-    }
-
-    .input-field {
-        position: relative;
-        border-bottom: 2px solid #ccc;
-        margin: 15px 0;
-    }
-
-        .input-field label {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            color: #fff;
-            font-size: 16px;
-            pointer-events: none;
-            transition: 0.15s ease;
-        }
-
-        .input-field input {
-            width: 100%;
-            height: 40px;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            color: #fff;
-        }
-
-            .input-field input:focus ~ label,
-            .input-field input:valid ~ label {
-                font-size: 0.8rem;
-                top: 10px;
-                transform: translateY(-120%);
-            }
-
-    .forget {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 25px 0 35px 0;
-        color: #fff;
-    }
-
-    #remember {
-        accent-color: #fff;
-    }
-
-    .forget label {
-        display: flex;
-        align-items: center;
-    }
-
-        .forget label p {
-            margin-left: 8px;
-        }
-
-    .wrapper a {
-        color: #efefef;
-        text-decoration: none;
-    }
-
-        .wrapper a:hover {
-            text-decoration: underline;
-        }
-
-    button {
-        background: #fff;
-        color: #000;
-        font-weight: 600;
-        border: none;
-        padding: 12px 20px;
-        cursor: pointer;
-        border-radius: 3px;
-        font-size: 16px;
-        border: 2px solid transparent;
-        transition: 0.3s ease;
-    }
-
-        button:hover {
-            color: #fff;
-            border-color: #fff;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-    .register {
-        text-align: center;
-        margin-top: 30px;
-        color: #fff;
-    }
-</style>
-
-<div class="glassmorphism-container">
-    <div class="wrapper">
-        <form>
-            <h2>Login</h2>
-            <div class="input-field">
-                <input type="text" required />
-                <label>Enter your email</label>
+                </div>
+                <div class="col-md-2">
+                    <a href="@(NavigationManager.ToAbsoluteUri("Account/Register"))" class="btn btn-outline-success w-100">🌟 New User?</a>
+                </div>
             </div>
-            <div class="input-field">
-                <input type="password" required />
-                <label>Enter your password</label>
-            </div>
-            <button type="submit">Log In</button>
-            <div class="register">
-                <p>Don't have an account? <a href="#">Register</a></p>
-            </div>
-        </form>
+        </EditForm>
     </div>
 </div>
+
 
 @code {
     private string? statusMessage;
