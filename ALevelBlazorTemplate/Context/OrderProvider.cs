@@ -1,4 +1,5 @@
-﻿using MyCheeseShop.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCheeseShop.Model;
 using static MyCheeseShop.Model.Order;
 
 namespace MyCheeseShop.Context
@@ -12,6 +13,18 @@ namespace MyCheeseShop.Context
             _context = context;
         }
 
+        public async Task<List<Order>?> GetOrdersAsync(User? user)
+        {
+            if (user == null) return null;
+
+            // Return all orders for the specified user
+            return await _context.Orders
+                .Where(order => order.User.UserName == user.UserName)
+                .Include(order => order.Items)
+                .ThenInclude(item => item.Cheese)
+                .OrderByDescending(order => order.Created)
+                .ToListAsync();
+        }
 
         public async Task CreateOrder(User user, IEnumerable<CartItem> items)
         {

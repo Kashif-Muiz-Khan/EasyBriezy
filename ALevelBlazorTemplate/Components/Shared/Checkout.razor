@@ -1,13 +1,14 @@
 ﻿@page "/checkout"
-@attribute [Authorize]
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@attribute [Authorize]
+@inject UserProvider UserProvider
 @inject OrderProvider OrderProvider
 @inject ShoppingCart ShoppingCart
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject ProtectedSessionStorage ProtectedSessionStore
-
 
 
 
@@ -31,7 +32,7 @@
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var username = authState!.User!.Identity!.Name!;
-        user = UserProvider.GetUser(username)!;
+        user = UserProvider.GetUserByUsername(username)!;
     }
 
     private async Task MakePayment()
