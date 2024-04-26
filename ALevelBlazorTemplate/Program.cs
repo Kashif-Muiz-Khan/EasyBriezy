@@ -11,12 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
+builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddScoped<ShoppingCart>();
 builder.Services.AddScoped<DatabaseSeeder>();
 builder.Services.AddScoped<CheeseProvider>();
 builder.Services.AddScoped<OrderProvider>();
 builder.Services.AddScoped<UserProvider>();
-
 
 
 // Add services to the container.

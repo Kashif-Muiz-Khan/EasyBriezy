@@ -1,0 +1,165 @@
+﻿@page "/Order-details/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@inject OrderProvider OrderProvider
+@inject UserProvider UserProvider
+@inject ShoppingCart ShoppingCart
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+
+
+﻿@if (Order is null)
+{
+    <p>Select an order...</p>
+}
+else
+{
+
+
+<div class="card">
+    <div class="row row-cols-1 row-cols-md-4 g-4" style="margin-bottom: 20px;">
+        @foreach (OrderItem item in Order.Items)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="/img/cheeses/@item.Cheese.ImageUrl" class="card-img-top p-1" alt="@item.Cheese.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between">
+                            <h5 class="card-title">@item.Cheese.Name</h5>
+                            <br />
+                        </div>
+                        <h6><strong style=" margin: 20px;">Price:   </strong><span class="badge bg-danger">@item.Cheese.Price.ToString("C")</span></h6>
+                        <h6><strong style=" margin: 20px;">Quantity:   </strong><span class="badge bg-success">@(item.Quantity * 100)g</span></h6>
+                        <h6><strong style=" margin: 20px;">Total:   </strong><span class="badge bg-primary">@item.Order.Total.ToString("C")</span></h6>
+                        <div class="mt-auto"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+ </div>
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" style="height: 25rem;">
+                <div class="card-header">
+                    <h4>Other Details</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6><strong style="margin: 20px;">Order ID:   </strong><span class="badge text-bg-success">Order: @Order.Id</span></h6>
+                    </li>
+                    <li class="list-group-item">
+                        <h6><strong style="margin: 20px;">Customer Name:   </strong><span class="badge text-bg-info">@($"{Order.User.FirstName} {Order.User.LastName}")</span></h6>
+                    </li>
+                    <li class="list-group-item">
+                        <h6><strong style="margin: 20px;">Order Total:   </strong><span class="badge text-bg-danger">Total: @Order.Total.ToString("C")</span></h6>
+                    </li>
+                    <li class="list-group-item">
+                        <h6><strong style="margin: 20px;">Order Status:   </strong><span class="badge @GetStatusColour(Order.Status)">@Order.Status.ToString()</span></h6>
+                    </li
+                    <li class="list-group-item">
+                        <h6><strong style="margin: 20px;">Date Placed:   </strong><span class="badge text-bg-dark">@Order.Created.ToString("U")</span></h6>
+                    </li>
+                    <li class="list-group-item">
+                        <h6><strong style="margin: 20px;">Full Address:   </strong><span class="badge text-bg-warning">@($"{Order.User.Address}, {Order.User.City}, {Order.User.PostCode}")</span></h6>
+                    </li>
+                </ul>
+                <div class="card-footer">
+                    <strong>Happy Cheese!!!</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card" style="height: 25rem;">
+                <div class="card-header">
+                    <h4>Delivery Details</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name: </strong> @user.FirstName @user.LastName</li>
+                    <li class="list-group-item"><strong>Address: </strong> @user.Address</li>
+                    <li class="list-group-item"><strong>City: </strong> @user.City</li>
+                    <li class="list-group-item"><strong>Postcode: </strong> @user.PostCode</li>
+                </ul>
+                <div class="card-footer">
+                    <strong>Estimated Delivery Time: </strong> 2-3 Days
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+@code {
+    [Parameter]
+    public Order? Order { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private decimal total;
+    private User user;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Order = await OrderProvider.GetOrderAsync(Id);
+
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var username = authState!.User!.Identity!.Name!;
+        user = UserProvider.GetUserByUsername(username)!;
+        var items = ShoppingCart.GetItems();
+    }
+
+
+    public string GetStatusColour(OrderStatus status)
+    {
+        switch (status)
+        {
+            case OrderStatus.Placed:
+                return "badge bg-primary";
+            case OrderStatus.Dispatched:
+                return "badge bg-success";
+            case OrderStatus.Cancelled:
+                return "badge bg-danger";
+            default:
+                return "";
+        }
+    }
+
+    private string GetFormattedName(User user)
+    {
+        return $"{user.FirstName} {user.LastName}";
+    }
+
+    private string GetFormattedAddress(User user)
+    {
+        return $"{user.Address}{Environment.NewLine}{user.City}{Environment.NewLine}{user.PostCode}";
+    }
+
+
+
+ 
+
+
+}

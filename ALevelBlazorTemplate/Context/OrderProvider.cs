@@ -26,6 +26,17 @@ namespace MyCheeseShop.Context
                 .ToListAsync();
         }
 
+        public async Task<List<Order>?> GetAllOrdersAsync()
+        {
+            // Return all orders
+            return await _context.Orders
+                .Include(order => order.User)
+                .Include(order => order.Items)
+                .ThenInclude(item => item.Cheese)
+                .OrderByDescending(order => order.Created)
+                .ToListAsync();
+        }
+
         public async Task CreateOrder(User user, IEnumerable<CartItem> items)
         {
             // Create a new order
@@ -46,7 +57,31 @@ namespace MyCheeseShop.Context
             await _context.SaveChangesAsync();
         }
 
+        public async Task DispatchOrder(Order order)
+        {
+            // Update the order status to dispatched
+            order.Status = OrderStatus.Dispatched;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
 
+        public async Task CancelOrder(Order order)
+        {
+            // Update the order status to cancelled
+            order.Status = OrderStatus.Cancelled;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Order?> GetOrderAsync(int id)
+        {
+            // Return the order with the specified ID
+            return await _context.Orders
+                .Include(order => order.User)
+                .Include(order => order.Items)
+                .ThenInclude(item => item.Cheese)
+                .FirstOrDefaultAsync(order => order.Id == id);
+        }
 
     }
 }

@@ -3,10 +3,98 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject OrderProvider OrderProvider
 @inject UserProvider UserProvider
+@inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
-<h3>MyOrders</h3>
+
+<PageTitle>My Cheesastic Orders</PageTitle>
+
+<h3>Orders</h3>
+
+@if (orders is null)
+{
+    <p>Loading...</p>
+}
+else if (!orders.Any())
+{
+    <p>🙁 No orders found</p>
+}
+else
+{
+    <div class="row">
+        <div class=" col-12 mt-1">
+            <div class="card">
+                <div class="card-body bg-light">
+                    <table class="table" style="background-color: white; vertical-align:middle;">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Ordered</th>
+                                <th scope="col" class="hide-on-small">Status</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">More Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in orders)
+                            {
+                                <tr>
+                                    <td scope="col" class="@GetCellColour(order.Status)">@order.Id</td>
+                                    <td scope="col">@order.Created.ToString("dd MMMM yyyy")</td>
+                                    <td scope="col" class="hide-on-small">@order.Status.ToString()</td>
+                                    <td scope="col">@order.Total.ToString("C")</td>
+                                    <td scope="col">
+                                        <button class="btn btn-outline-primary" @onclick="() => ShowDetails(order)">🔍</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div style="display: flex; justify-content: center;">
+                        <span class="badge bg-success">Dispatched</span>
+                        <span class="badge bg-primary">Placed</span>
+                        <span class="badge bg-danger">Cancelled</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @code {
+    private IEnumerable<Order>? orders;
+    private Order? selectedOrder;
 
+    protected async override Task OnInitializedAsync()
+    {
+        var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var username = authstate.User!.Identity!.Name!;
+        var user = UserProvider.GetUserByUsername(username);
+
+        orders = await OrderProvider.GetOrdersAsync(user!);
+        selectedOrder = orders?.FirstOrDefault();
+    }
+
+    private void ShowDetails(Order order)
+    {
+        NavigationManager.NavigateTo($"/order-details/{order.Id}");
+    }
+
+
+
+    public string GetCellColour(OrderStatus status)
+    {
+        switch (status)
+        {
+            case OrderStatus.Placed:
+                return "table-primary";
+            case OrderStatus.Dispatched:
+                return "badge bg-success";
+            case OrderStatus.Cancelled:
+                return "badge bg-danger";
+            default:
+                return "";
+        }
+    }
 }
