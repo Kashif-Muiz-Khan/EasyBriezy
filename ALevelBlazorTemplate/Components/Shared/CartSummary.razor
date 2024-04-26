@@ -10,44 +10,38 @@
     <table class="table" style="background-color: white; vertical-align:middle;">
         <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-                @if (IsEditable)
-                {
-                    <th scope="col">Actions</th>
-                }
+                <h2>
+                <th scope="col">Items</th>
+                </h2>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in ShoppingCart.GetItems())
             {
-                <div class="card mb-3" style="max-width: 800px;">
+                <div class="card mb-2" style="max-width: 1080px;">
                     <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="/img/cheeses/@item.Cheese.ImageUrl" class="img-fluid rounded-start" />
-                    </div>
-                    <div class="col-md-8">
-                    <div class="card-body">
-                    <h5>@item.Cheese.Name</h5>
+                        <div class="col-md-3">
+                            <img src="/img/cheeses/@item.Cheese.ImageUrl" class="img-fluid rounded-start" />
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card-body">
+                                <h4 class="card-title">@item.Cheese.Name</h4>
+                                <div>
+                                    <p class="card-text"><strong>Price: </strong> @item.Cheese.Price.ToString("C")</p>
+                                    <p class="card-text"><strong>Quantity: </strong>@(item.Quantity * 100)g</p>
+                                    <p class="card-text"><strong>Total: </strong>@item.Total.ToString("C")</p>
+                                   @if (IsEditable)
+                                    {
+                                        <td scope="auto">
+                                            <button class="btn btn-outline-success mt-1 mt-md-0" @onclick="() => IncreaseQuantity(item)">Increase</button>
+                                            <button class="btn btn-outline-primary mt-1 mt-md-0" @onclick="() => DecreaseQuantity(item)">Decrease</button>
+                                            <button class="btn btn-outline-danger mt-1 mt-md-0" @onclick="() => RemoveItem(item)">Delete</button>
+                                        </td>
+                                    }
 
-                    <div class="card-text">
-                    <p scope="col">@item.Cheese.Price.ToString("C")</p>
-                    <p scope="col">@(item.Quantity * 100)g</p>
-                    <p scope="col">@item.Total.ToString("C")</p>
-                    @if (IsEditable)
-                    {
-                        <td scope="col">
-                            <button class="btn btn-outline-success mt-1 mt-md-0" @onclick="() => IncreaseQuantity(item)">Add</button>
-                            <button class="btn btn-outline-primary mt-1 mt-md-0" @onclick="() => DecreaseQuantity(item)">Decrease</button>
-                            <button class="btn btn-outline-danger mt-1 mt-md-0" @onclick="() => RemoveItem(item)">Bin</button>
-                        </td>
-                    }
-            
-                    </div>
-                    </div
-                    </div>
+                                </div>
+                            </div
+                        </div>
                     </div>
                 </div>
             }
@@ -60,6 +54,7 @@
     </div>
     <div>
         <h4>Total: @(ShoppingCart.Total().ToString("C"))</h4>
+        <a @onclick="GoToCheckout" class="btn btn-outline-primary">💵 Checkout</a>
     </div>
 </div>
 
@@ -79,6 +74,11 @@
     protected override void OnInitialized()
     {
         ShoppingCart.OnCartUpdated += async () => await CartUpdated();
+    }
+
+    private void GoToCheckout()
+    {
+        NavigationManager.NavigateTo("/checkout");
     }
 
 

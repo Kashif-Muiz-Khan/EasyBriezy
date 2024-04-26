@@ -27,8 +27,10 @@ else if (!cheeses.Any())
 
 
 
-<div class="d-flex justify-content-end mt-2 mt-md-0">
-    <a @onclick="GoToCart" class="btn btn-outline-primary">🛒 Cart (@ShoppingCart.Count())</a>
+<div class="sticky-top">
+    <div class="d-flex justify-content-end mt-2 mt-md-0">
+        <a @onclick="GoToCart" class="btn btn-outline-primary btn-light">🛒 Cart (@ShoppingCart.Count())</a>
+    </div>
 </div>
 
 

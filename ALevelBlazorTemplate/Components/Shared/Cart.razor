@@ -12,16 +12,18 @@
 }
 else
 {
+
     <div class="d-flex justify-content-between">
         <div>
             <h3>Shopping Cart</h3>
         </div>
         <div>
-            <a @onclick="GoToCheckout" class="btn btn-outline-primary">💵 Checkout</a>
+            <CartSummary IsEditable="true" />
+            @* <a @onclick="GoToCheckout" class="btn btn-outline-primary">💵 Checkout</a> *@
         </div>
     </div>
 
-    <CartSummary IsEditable="true" />
+    
 }
 
 
