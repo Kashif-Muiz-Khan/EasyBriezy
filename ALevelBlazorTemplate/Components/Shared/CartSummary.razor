@@ -1,4 +1,6 @@
-﻿@inject ShoppingCart ShoppingCart
+﻿@using MyCheeseShop.Context
+@using MyCheeseShop.Model
+@inject ShoppingCart ShoppingCart
 @inject NavigationManager NavigationManager
 @inject ProtectedSessionStorage ProtectedSessionStore
 
@@ -21,20 +23,33 @@
         <tbody>
             @foreach (var item in ShoppingCart.GetItems())
             {
-                <tr>
-                    <td scope="col">@item.Cheese.Name</td>
-                    <td scope="col">@item.Cheese.Price.ToString("C")</td>
-                    <td scope="col">@(item.Quantity * 100)g</td>
-                    <td scope="col">@item.Total.ToString("C")</td>
+                <div class="card mb-3" style="max-width: 800px;">
+                    <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/img/cheeses/@item.Cheese.ImageUrl" class="img-fluid rounded-start" />
+                    </div>
+                    <div class="col-md-8">
+                    <div class="card-body">
+                    <h5>@item.Cheese.Name</h5>
+
+                    <div class="card-text">
+                    <p scope="col">@item.Cheese.Price.ToString("C")</p>
+                    <p scope="col">@(item.Quantity * 100)g</p>
+                    <p scope="col">@item.Total.ToString("C")</p>
                     @if (IsEditable)
                     {
                         <td scope="col">
-                            <button class="btn btn-outline-success mt-1 mt-md-0" @onclick="() => IncreaseQuantity(item)">➕</button>
-                            <button class="btn btn-outline-primary mt-1 mt-md-0" @onclick="() => DecreaseQuantity(item)">➖</button>
-                            <button class="btn btn-outline-danger mt-1 mt-md-0" @onclick="() => RemoveItem(item)">🗑</button>
+                            <button class="btn btn-outline-success mt-1 mt-md-0" @onclick="() => IncreaseQuantity(item)">Add</button>
+                            <button class="btn btn-outline-primary mt-1 mt-md-0" @onclick="() => DecreaseQuantity(item)">Decrease</button>
+                            <button class="btn btn-outline-danger mt-1 mt-md-0" @onclick="() => RemoveItem(item)">Bin</button>
                         </td>
                     }
-                </tr>
+            
+                    </div>
+                    </div
+                    </div>
+                    </div>
+                </div>
             }
         </tbody>
     </table>
@@ -99,5 +114,9 @@
         NavigationManager.NavigateTo("/");
     }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        StateHasChanged();
+    }
 
 }

@@ -2,6 +2,9 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@using MyCheeseShop.Components.Shared
+@using MyCheeseShop.Context
+@using MyCheeseShop.Model
 @attribute [Authorize]
 @inject UserProvider UserProvider
 @inject OrderProvider OrderProvider
@@ -9,6 +12,26 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject ProtectedSessionStorage ProtectedSessionStore
+
+
+
+<PageTitle>Checkout - EasyBriezy</PageTitle>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        Delivery Details
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Name : @user.FirstName @user.LastName</li>
+        <li class="list-group-item">Address : @user.Address</li>
+        <li class="list-group-item">City : @user.City</li>
+        <li class="list-group-item">Postcode : @user.PostCode</li>
+    </ul>
+    <div class="card-footer">
+        Estimated Delivery Time : 2-3 Days
+    </div>
+</div>
+
 
 
 
@@ -60,16 +83,7 @@
         NavigationManager.NavigateTo("/cart");
     }
 
-    private string GetFormattedName(User user)
-    {
-        return $"{user.FirstName} {user.LastName}";
-    }
-
-    private string GetFormattedAddress(User user)
-    {
-        return $"{user.Address}{Environment.NewLine}{user.City}{Environment.NewLine}{user.PostCode}";
-    }
-
+    
     private sealed class PaymentDetails
     {
         [Required]
@@ -84,4 +98,18 @@
         [Required]
         public string SecurityCode { get; set; }
     }
+
+
+
+    private string GetFormattedName(User user)
+    {
+        return $"{user.FirstName} {user.LastName}";
+    }
+
+    private string GetFormattedAddress(User user)
+    {
+        return $"{user.Address}{Environment.NewLine}{user.City}{Environment.NewLine}{user.PostCode}";
+    }
+
+
 }

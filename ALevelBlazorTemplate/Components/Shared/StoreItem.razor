@@ -9,28 +9,53 @@
 
 
 
-<div class="row row-cols-1 row-cols-md-4 g-4">
-    @foreach (var cheese in Cheeses)
-    {
-        <div class="col">
+
+<div class="col">
             <div class="card h-100">
-                <img src="/img/cheeses/@cheese.ImageUrl" class="card-img-top p-1" alt="@cheese.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
+                <img src="/img/cheeses/@Cheese.ImageUrl" class="card-img-top p-1" alt="@Cheese.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
                 <div class="card-body d-flex flex-column">
                     <h5>
-                        <span class="badge badge bg-primary">@cheese.Type</span>
-                        <span class="badge @GetStrengthBadgeColor(cheese.Strength)">@cheese.Strength</span>
+                        <span class="badge badge bg-primary">@Cheese.Type</span>
+                        <span class="badge @GetStrengthBadgeColor(Cheese.Strength)">@Cheese.Strength</span>
                     </h5>
                     <div class="d-flex flex-column flex-sm-row justify-content-between">
-                        <h5 class="card-title">@cheese.Name</h5>
-                        <h5><span class="badge bg-danger">@cheese.Price.ToString("C")</span></h5>
+                        <h5 class="card-title">@Cheese.Name</h5>
+                        <h5><span class="badge bg-danger">@Cheese.Price.ToString("C")</span></h5>
                     </div>
-                    <p class="card-text">@cheese.Description</p>
+                    <p class="card-text">@Cheese.Description</p>
                     <div class="mt-auto"></div>
+                    <EditForm Model="quantity" OnSubmit="AddToCart">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <InputSelect class="form-select w-100" @bind-Value="quantity" required>
+                                    @for (var i = 1; i <= 5; i++)
+                                    {
+                                        <option value="@i">@(i * 100)g</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            <div class="col-lg-6 col-12 mt-lg-0 mt-1">
+                                <button class="btn btn-primary position-relative w-100">
+                                    Add to cart
+                                    @if (ShoppingCart.GetQuantity(Cheese) > 0)
+                                    {
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            @(ShoppingCart.GetQuantity(Cheese) * 100)g
+                                            <span class="visually-hidden">@Cheese.Name in shopping cart</span>
+                                        </span>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </EditForm>
                 </div>
             </div>
-        </div>
-    }
 </div>
+
+
+
+
+
 
 
 
@@ -74,12 +99,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetCheeses();
+          await GetCheeses();
     }
 
     private async Task GetCheeses()
     {
-        Cheeses = (await CheeseProvider.GetAllCheesesAsync()).AsQueryable();
+          Cheeses = (await CheeseProvider.GetAllCheesesAsync()).AsQueryable();
     }
 
 
