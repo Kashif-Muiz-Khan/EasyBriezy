@@ -29,6 +29,5 @@ h1:focus {
 }
 
 body {
-    background-image: url();
-    background-size: auto;
+    background: linear-gradient(0deg, #FCDC2A 0%, #87A922 52%);
 }

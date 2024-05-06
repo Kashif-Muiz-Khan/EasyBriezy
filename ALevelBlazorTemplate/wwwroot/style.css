@@ -1,137 +1,102 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Open Sans", sans-serif;
+/* Define the background color */
+body {
+    background-color: #114232;
 }
+
+/* Define text color */
+.animcard {
+    color: #FCDC2A;
+}
+
+/* Define initial background color */
+.animcard {
+    background-color: #ffffff;
+}
+
+/* Define transition for background color change */
+.animcard {
+    transition: background-color 0.8s ease 0s, color 0.3s ease 0s; /* Added color transition */
+}
+
+    /* Apply new background color on hover */
+    .animcard:hover {
+        background-color: #135D66;
+        color: white; /* Added text color change */
+    }
+
+.animate-card-animation-end .animcard {
+    color: white;
+}
+
 
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    width: 100%;
-    padding: 0 10px;
+    background-image: url('/nice.svg');
+    background-size: auto; /* Adjust to your preference */
+    background-repeat: repeat; /* Adjust to your preference */
+    /* Other background properties */
 }
 
-    body::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: url("https://th.bing.com/th/id/OIG4.2.Qnzw81udVfYVgLWpR2?w=1024&h=1024&rs=1&pid=ImgDetMain"), #000;
-        background-position: center;
-        background-size: cover;
+
+
+
+
+
+/* Global styles */
+body {
+    background-color: #114232;
+    color: #FCDC2A;
+    position: relative; /* Ensure the body is a positioning context */
+}
+
+/* Specific styles for the targeted <p> tag */
+.animated-p {
+    text-transform: uppercase;
+    letter-spacing: .5em;
+    display: inline-block;
+    border: 4px double rgba(255,255,255,.25);
+    border-width: 4px 0;
+    padding: 1.5em 0em;
+    position: relative; /* Change to relative positioning */
+    text-align: center; /* Center the text */
+    z-index: 2; /* Set a higher z-index to ensure it appears above other elements */
+}
+
+    /* Animated text styles */
+    .animated-p span {
+        font: 700 4em/1 "Oswald", sans-serif;
+        letter-spacing: 0;
+        padding: .25em 0 .325em;
+        display: block;
+        margin: 0 auto;
+        text-shadow: 0 0 80px rgba(255,255,255,.5);
+        /* Clip Background Image */
+        background: url(https://i.ibb.co/RDTnNrT/animated-text-fill.png) repeat-y;
+        -webkit-background-clip: text;
+        background-clip: text;
+        /* Animate Background Image */
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: aitf 80s linear infinite;
+        /* Activate hardware acceleration for smoother animations */
+        -webkit-transform: translate3d(0,0,0);
+        -webkit-backface-visibility: hidden;
     }
 
-.wrapper {
-    width: 400px;
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(9px);
-    -webkit-backdrop-filter: blur(9px);
-}
 
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.input-field {
-    position: relative;
-    border-bottom: 2px solid #ccc;
-    margin: 15px 0;
-}
-
-    .input-field label {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        color: #fff;
-        font-size: 16px;
-        pointer-events: none;
-        transition: 0.15s ease;
+    .white-text {
+        color: white;
+        font: 200 2em/1 "Oswald";
     }
 
-    .input-field input {
-        width: 100%;
-        height: 40px;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        color: #fff;
+
+/* Animate Background Image */
+@-webkit-keyframes aitf {
+    0% {
+        background-position: 0% 50%;
     }
 
-        .input-field input:focus ~ label,
-        .input-field input:valid ~ label {
-            font-size: 0.8rem;
-            top: 10px;
-            transform: translateY(-120%);
-        }
-
-.forget {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 25px 0 35px 0;
-    color: #fff;
-}
-
-#remember {
-    accent-color: #fff;
-}
-
-.forget label {
-    display: flex;
-    align-items: center;
-}
-
-    .forget label p {
-        margin-left: 8px;
+    100% {
+        background-position: 100% 50%;
     }
-
-.wrapper a {
-    color: #efefef;
-    text-decoration: none;
 }
 
-    .wrapper a:hover {
-        text-decoration: underline;
-    }
 
-button {
-    background: #fff;
-    color: #000;
-    font-weight: 600;
-    border: none;
-    padding: 12px 20px;
-    cursor: pointer;
-    border-radius: 3px;
-    font-size: 16px;
-    border: 2px solid transparent;
-    transition: 0.3s ease;
-}
-
-    button:hover {
-        color: #fff;
-        border-color: #fff;
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-.register {
-    text-align: center;
-    margin-top: 30px;
-    color: #fff;
-}
