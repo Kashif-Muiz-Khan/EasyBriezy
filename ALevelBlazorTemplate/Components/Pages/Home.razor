@@ -12,6 +12,43 @@
 
 
 
+
+<style>
+    .switch {
+        display: inline-block;
+        margin-right: 10px; /* Adjust margin as needed */
+    }
+</style>
+
+@for (int x = 1; x < 4; x++)
+{
+    <label class="switch">
+        <input type="checkbox" checked="checked">
+        <div class="button">
+            <div class="light"></div>
+            <div class="dots"></div>
+            <div class="characters"></div>
+            <div class="shine"></div>
+            <div class="shadow"></div>
+        </div>
+    </label>
+}
+
+
+@for (int x = 1; x < 6; x++)
+{
+    <label class="switch">
+        <input type="checkbox" checked="checked">
+        <div class="button">
+            <div class="light"></div>
+            <div class="dots"></div>
+            <div class="characters"></div>
+            <div class="shine"></div>
+            <div class="shadow"></div>
+        </div>
+    </label>
+}
+
 <br />
 
 
@@ -61,6 +98,8 @@ else if (!cheeses.Any())
 
 
 @code {
+    int i = 0;
+
     private IEnumerable<Cheese> cheeses;
     private string searchTerm = "";
 

@@ -1,0 +1,90 @@
+﻿@page "/customers"
+<h3>Customers</h3>
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
+@using Microsoft.AspNetCore.Components.Authorization
+@inject OrderProvider OrderProvider
+@inject UserProvider UserProvider
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>All Of The Cheesastic Orders</PageTitle>
+
+<h3>Orders</h3>
+
+@if (users is null)
+{
+    <p>Loading...</p>
+}
+else if (!  users.Any())
+{
+    <p>🙁 No orders found</p>
+}
+else
+{
+    <div class="row">
+        <div class=" col-12 mt-1">
+            <div class="card">
+                <div class="card-body bg-light">
+                    <table class="table" style="background-color: white; vertical-align:middle;">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Total Orders</th>
+                                <th scope="col">More Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in users)
+                            {
+                                <tr>
+                                    <td scope="col">@user.FirstName @user.LastName</td>
+                                    <td scope="col">@user.Address</td>
+                                    <td scope="col">@user.City</td>
+                                    <td scope="col">@user.Orders.Count()</td>
+                                    <td scope="col">
+                                        <button class="btn btn-outline-primary" @onclick="() => ShowDetails()">🔍</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private IEnumerable<User>? users;
+    private User? selectedUser;
+    private IEnumerable<Order>? orders;
+    private Order? selectedOrder;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var username = authstate.User!.Identity!.Name!;
+        var user = UserProvider.GetUserByUsername(username);
+
+        orders = await OrderProvider.GetAllOrdersAsync();
+        selectedUser = users?.FirstOrDefault();
+
+        users = await UserProvider.GetAllUsersAsync();
+        selectedOrder = orders?.FirstOrDefault();
+    }
+
+    private void ShowDetails()
+    {
+        NavigationManager.NavigateTo($"/all-orders");
+    }
+
+
+
+
+
+}

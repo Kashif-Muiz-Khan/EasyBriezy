@@ -83,5 +83,18 @@ namespace MyCheeseShop.Context
                 .FirstOrDefaultAsync(order => order.Id == id);
         }
 
+
+        public async Task<int> GetTotalOrdersForUserAsync(User user)
+{
+    // Return the total number of orders for the specified user
+    return await _context.Orders
+        .Where(order => order.User.Id == user.Id)
+        .CountAsync();
+}
+
+
+
+
+
     }
 }
