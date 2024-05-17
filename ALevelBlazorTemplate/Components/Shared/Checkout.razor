@@ -54,7 +54,7 @@
     @foreach (var item in ShoppingCart.GetItems())
     {
     <div class="col">
-        <div class="card h-100">
+        <div class="cardss h-100">
                 <img src="/img/cheeses/@item.Cheese.ImageUrl" class="card-img-top p-1" alt="@item.Cheese.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
             <div class="card-body d-flex flex-column">
                     <div class="d-flex flex-column flex-sm-row justify-content-between">
@@ -78,15 +78,15 @@
 
 <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-3">
-        <div class="card" style ="height : 20rem; justify-content:center;">
+        <div class="cardss" style ="height : 20rem; justify-content:center;">
         <div class="card-header">
             <h4>Delivery Details</h4>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Name: </strong> @user.FirstName @user.LastName</li>
-            <li class="list-group-item"><strong>Address: </strong> @user.Address</li>
-            <li class="list-group-item"><strong>City: </strong> @user.City</li>
-            <li class="list-group-item"><strong>Postcode: </strong> @user.PostCode</li>
+        <ul class="list-group list-group-flush ulss">
+                <li class="list-group-item cardss"><strong>Name: </strong> @user.FirstName @user.LastName</li>
+                <li class="list-group-item cardss"><strong>Address: </strong> @user.Address</li>
+                <li class="list-group-item cardss"><strong>City: </strong> @user.City</li>
+                <li class="list-group-item cardss"><strong>Postcode: </strong> @user.PostCode</li>
         </ul>
         <div class="card-footer">
             <strong>Estimated Delivery Time: </strong> 2-3 Days
@@ -96,24 +96,24 @@
 
     <div class="col-md-9">
         <div class="card" style ="height : 10rem;">
-            <div class="card-body bg-light">
-                <h4 class="card-title" style="text-align:center;">Payment Details --- Order Total: @(ShoppingCart.Total().ToString("C")) </h4>
+            <div class="card-body cardss">
+                <h4 class="card-title" style="text-align:center; color: white;">Payment Details --- Order Total: @(ShoppingCart.Total().ToString("C")) </h4>
                 <EditForm OnValidSubmit="MakePayment" Model="paymentDetails" FormName="paymentdetails">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="name" class="form-label">Name On Card</label>
+                            <label for="name" class="form-label" style="color: white;">Name On Card</label>
                             <InputText class="form-control" placeholder="Name On Card" @bind-Value="paymentDetails.NameOnCard" />
                         </div>
                         <div class="col-md-6">
-                            <label for="cardnumber" class="form-label">Card Number</label>
+                            <label for="cardnumber" class="form-label" style="color: white;">Card Number</label>
                             <InputText type="cardnumber" class="form-control" placeholder="CardNumber" @bind-Value="paymentDetails.CardNumber" />
                         </div>
                         <div class="col-md-6">
-                            <label for="expirydate" class="form-label">Expiry Date</label>
+                            <label for="expirydate" class="form-label" style="color: white;">Expiry Date</label>
                             <InputText type="expirydate" class="form-control" placeholder="Expiry Date" @bind-Value="paymentDetails.ExpiryDate" />
                         </div>
                         <div class="col-md-6">
-                             <label for="securitycode" class="form-label">Security Code</label>
+                            <label for="securitycode" class="form-label" style="color: white;">Security Code</label>
                              <InputText type="securitycode" class="form-control" placeholder="Security Code" @bind-Value="paymentDetails.SecurityCode" />
                         </div>
                         <div class="col-md-3">

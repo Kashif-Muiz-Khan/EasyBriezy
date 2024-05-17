@@ -1,21 +1,17 @@
-﻿@page "/add-cheese"
-<h3>Cheeses</h3>
+﻿@page "/cheese"
+
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
 @using Microsoft.AspNetCore.Components.Authorization
-@using MyCheeseShop.Context
-@using MyCheeseShop.Model
+
+
+
+
+
 @using System.ComponentModel.DataAnnotations
 @inject CheeseProvider CheeseProvider
-@inject ProtectedSessionStorage ProtectedSessionStore
-@inject ShoppingCart ShoppingCart
-@inject CheeseProvider CheeseProvider
 @inject NavigationManager NavigationManager
-
-
-
-
 
 <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -74,10 +70,7 @@
     </div>
 </EditForm>
 
-
-
 @code {
-  
     [Parameter]
     public Cheese? Cheese { get; set; }
 
@@ -89,6 +82,7 @@
         base.OnParametersSet();
     }
 
+  
 
     private async Task HandleSubmit()
     {
@@ -99,7 +93,6 @@
         cheese.Price = Model.Price;
         cheese.Strength = Model.Strength;
         cheese.Type = Model.Type;
-        cheese.ImageUrl = Model.ImageUrl;
 
         if (cheese.Id == 0)
         {
@@ -131,9 +124,6 @@
         [Required(ErrorMessage = "Please enter the price of the cheese.")]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Images must be .jpg, .png or .gif and less than 5MB")]
-        public string? ImageUrl { get; set; } = "";
-
         public CheeseModel()
         {
         }
@@ -145,8 +135,6 @@
             Description = cheese.Description;
             Strength = cheese.Strength;
             Price = cheese.Price;
-            ImageUrl = cheese.ImageUrl;
         }
     }
-
 }

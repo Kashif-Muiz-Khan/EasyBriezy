@@ -4,7 +4,6 @@
 
 @if (ShoppingCart.Count() == 0)
 {
-    <h3>Shopping Cart</h3>
     <p>🛒 Your cart is empty</p>
     <div>
         <button @onclick="GoToStore" class="btn btn-outline-primary">🧀 Back to cheeses</button>
@@ -14,9 +13,6 @@ else
 {
 
     <div class="d-flex justify-content-between">
-        <div>
-            <h3>Shopping Cart</h3>
-        </div>
         <div>
             <CartSummary IsEditable="true" />
             @* <a @onclick="GoToCheckout" class="btn btn-outline-primary">💵 Checkout</a> *@

@@ -48,13 +48,33 @@ body {
 
     /* Apply new background color on hover */
     .animcard:hover {
-        background-color: #FC4100;
+        background-color: #00215E;
         color: white; /* Added text color change */
     }
 
 .animate-card-animation-end .animcard {
     color: white;
 }
+
+
+/* Card with background color and white text */
+.cardss {
+    background-color: #00215E; /* Set your desired background color */
+    color: white; /* Set text color to white */
+    padding: 20px;
+    border-radius: 8px;
+    /* Add any other styling you'd like */
+}
+
+
+.ulss {
+    background-color: #00215E; /* Set your desired background color */
+    color: white; /* Set text color to white */
+    padding: 20px;
+    border-radius: 8px;
+    /* Add any other styling you'd like */
+}
+
 
 
 
