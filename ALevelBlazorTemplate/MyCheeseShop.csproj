@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Components\Shared\AddCheese.razor" />
+    <None Include="Components\Pages\AddCheese.razor" />
   </ItemGroup>
 
 </Project>

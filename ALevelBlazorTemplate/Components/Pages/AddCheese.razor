@@ -1,15 +1,9 @@
-﻿@page "/cheese"
-
-
+﻿@page "/add-cheese"
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
 @using Microsoft.AspNetCore.Components.Authorization
 
-
-
-
-
-@using System.ComponentModel.DataAnnotations
+@inject FileUploader FileUploader
 @inject CheeseProvider CheeseProvider
 @inject NavigationManager NavigationManager
 
@@ -58,11 +52,27 @@
                                 <ValidationMessage For="@(() => Model.Price)" />
                             </div>
                         </div>
-
-
+                        
+                       
                     </div>
                     <div class="mt-auto">
                         <button type="submit" class="btn btn-outline-primary w-100">🧀 @(Cheese is null ? "Add cheese" : "Update cheese")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-12 mt-1">
+            <div class="card h-100">
+                <div class="card-body bg-light d-flex flex-column">
+                    <h4 class="card-title">Cheese image</h4>
+                    <div class="form-group mb-2">
+                        <InputFile id="imageUrl" class="form-control" @bind-Value="@Model.ImageUrl" OnChange="LoadFile" />
+                        <div class="small">
+                            <ValidationMessage For="@(() => Model.ImageUrl)" />
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <img src="/img/cheeses/@Model.ImageUrl" class="img-thumbnail" alt="@Model.Name" onerror="this.onerror = null; this.src='/img/no_cheese.png'">
                     </div>
                 </div>
             </div>
@@ -82,7 +92,17 @@
         base.OnParametersSet();
     }
 
-  
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        var filename = await FileUploader.UploadFileAsync(e.File);
+        if (filename is null)
+        {
+            Model.ImageUrl = null;
+            return;
+        }
+
+        Model.ImageUrl = filename;
+    }
 
     private async Task HandleSubmit()
     {
@@ -93,6 +113,7 @@
         cheese.Price = Model.Price;
         cheese.Strength = Model.Strength;
         cheese.Type = Model.Type;
+        cheese.ImageUrl = Model.ImageUrl;
 
         if (cheese.Id == 0)
         {
@@ -124,6 +145,9 @@
         [Required(ErrorMessage = "Please enter the price of the cheese.")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Images must be .jpg, .png or .gif and less than 5MB")]
+        public string? ImageUrl { get; set; } = "";
+
         public CheeseModel()
         {
         }
@@ -135,6 +159,7 @@
             Description = cheese.Description;
             Strength = cheese.Strength;
             Price = cheese.Price;
+            ImageUrl = cheese.ImageUrl;
         }
     }
 }
