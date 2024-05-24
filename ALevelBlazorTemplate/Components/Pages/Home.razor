@@ -11,43 +11,43 @@
 <PageTitle>Home</PageTitle>
 
 
-
-
-<style>
-    .switch {
-        display: inline-block;
-        margin-right: 10px; /* Adjust margin as needed */
+<div class="hamster-container">
+    @for (int x = 1; x < 8; x++)
+    {
+        <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+            <div class="wheel"></div>
+            <div class="hamster">
+                <div class="hamster__body">
+                    <div class="hamster__head">
+                        <div class="hamster__ear"></div>
+                        <div class="hamster__eye"></div>
+                        <div class="hamster__nose"></div>
+                    </div>
+                    <div class="hamster__limb hamster__limb--fr"></div>
+                    <div class="hamster__limb hamster__limb--fl"></div>
+                    <div class="hamster__limb hamster__limb--br"></div>
+                    <div class="hamster__limb hamster__limb--bl"></div>
+                    <div class="hamster__tail"></div>
+                </div>
+            </div>
+            <div class="spoke"></div>
+        </div>
     }
-</style>
-
-@for (int x = 1; x < 4; x++)
-{
-    <label class="switch">
-        <input type="checkbox" checked="checked">
-        <div class="button">
-            <div class="light"></div>
-            <div class="dots"></div>
-            <div class="characters"></div>
-            <div class="shine"></div>
-            <div class="shadow"></div>
-        </div>
-    </label>
-}
+</div>
 
 
-@for (int x = 1; x < 6; x++)
-{
-    <label class="switch">
-        <input type="checkbox" checked="checked">
-        <div class="button">
-            <div class="light"></div>
-            <div class="dots"></div>
-            <div class="characters"></div>
-            <div class="shine"></div>
-            <div class="shadow"></div>
-        </div>
-    </label>
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br />
 
