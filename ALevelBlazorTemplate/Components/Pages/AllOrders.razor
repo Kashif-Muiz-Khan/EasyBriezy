@@ -6,6 +6,8 @@
 @inject UserProvider UserProvider
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@using ApexCharts
+
 
 <PageTitle>All Of The Cheesastic Orders</PageTitle>
 
@@ -64,6 +66,27 @@ else
     </div>
 }
 
+
+
+
+
+<div class="card">
+
+<ApexChart TItem="MyData"
+           Title="Order Chart">
+
+    <ApexPointSeries TItem="MyData"
+                     Items="Data"
+                     Name="Total Revenue"
+                     SeriesType="SeriesType.Area"
+                     XValue="e => e.Order"
+                     YValue="e=> e.Total" />
+
+
+</ApexChart>
+</div>
+
+
 @code {
     private IEnumerable<Order>? orders;
     private Order? selectedOrder;
@@ -76,6 +99,11 @@ else
 
         orders = await OrderProvider.GetAllOrdersAsync();
         selectedOrder = orders?.FirstOrDefault();
+
+        foreach (Order order in orders)
+        {
+            Data.Add(new MyData { Order = $"{order.Id}", Total = order.Total });
+        }
     }
 
     private void ShowDetails(Order order)
@@ -99,4 +127,18 @@ else
                 return "";
         }
     }
+
+
+
+    private List<MyData> Data { get; set; } = new();
+
+
+
+    public class MyData
+    {
+        public string Order { get; set; }
+        public decimal Total { get; set; }
+    }
+
+
 }

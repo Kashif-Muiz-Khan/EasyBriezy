@@ -33,7 +33,7 @@ namespace MyCheeseShop.Context
                 .Include(order => order.User)
                 .Include(order => order.Items)
                 .ThenInclude(item => item.Cheese)
-                .OrderByDescending(order => order.Created)
+                .OrderBy(order => order.Created)
                 .ToListAsync();
         }
 
